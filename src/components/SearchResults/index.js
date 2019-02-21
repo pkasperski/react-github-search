@@ -10,23 +10,33 @@ type Props = {
   sortBy: (value: string) => void
 };
 
+const limitOptions = [10, 25, 50, 100];
+
 const SearchResults = (props: Props) => {
-  const { searchResults, sortBy } = props;
+  const { searchResults, pageLimit, dispatch } = props;
+
+  const sortHandler = fieldName => {
+    dispatch({ type: "sort_by", value: fieldName });
+  };
+
+  const pageLimitHandler = event => {
+    dispatch({ type: "page_limit", value: event.target.value });
+  };
 
   return (
     <table>
       <thead>
         <tr>
-          <th onClick={sortBy("full_name")}>
+          <th onClick={() => sortHandler("full_name")}>
             <span>Name</span>
           </th>
-          <th onClick={sortBy("owner")}>
+          <th onClick={() => sortHandler("owner")}>
             <span>Owner</span>
           </th>
-          <th onClick={sortBy("watchers_count")}>
+          <th onClick={() => sortHandler("watchers_count")}>
             <span>Stars</span>
           </th>
-          <th onClick={sortBy("created_date")}>
+          <th onClick={() => sortHandler("created_date")}>
             <span>Created at</span>
           </th>
         </tr>
@@ -41,6 +51,19 @@ const SearchResults = (props: Props) => {
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan="4">
+            <select value={pageLimit} onChange={pageLimitHandler}>
+              {limitOptions.map(i => (
+                <option key={i.toString()} value={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   );
 };

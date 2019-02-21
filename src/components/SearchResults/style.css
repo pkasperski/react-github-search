@@ -5,3 +5,7 @@ table th span {
 table th:hover span {
     cursor: pointer;
 }
+
+table tfoot td {
+    text-align: right;
+}
