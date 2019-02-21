@@ -1,0 +1,7 @@
+table th span {
+    color: blue;
+}
+
+table th:hover span {
+    cursor: pointer;
+}
